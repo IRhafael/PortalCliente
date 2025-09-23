@@ -4,9 +4,9 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ToastProvider } from "./contexts/ToastContext";
 import { ToastContainer } from "./components/ui/ToastContainer";
-// ...import outros layouts e páginas...
 
-const LoginPage = lazy(() => import("./pages/LoginPage"));
+
+const LoginPage = lazy(() => import("./pages/LoginPage")); 
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 
 
