@@ -1,0 +1,27 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+.DS_Store
+.env
+.env.*
+
+# Django
+*.log
+staticfiles/
+media/
+
+# VSCode
+.vscode/
+
+# Outros
+*.bak
+*.swp
+*.tmp
+
+\node_modules
+node_modules/
