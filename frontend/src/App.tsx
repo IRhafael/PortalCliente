@@ -8,7 +8,7 @@ import { ToastContainer } from "./components/ui/ToastContainer";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
-// ...outras páginas...
+
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -29,8 +29,7 @@ export default function App() {
                   path="/*"
                   element={
                     <PrivateRoute>
-                      {/* AppLayout e rotas internas */}
-                      {/* ... */}
+                      <DashboardPage />
                     </PrivateRoute>
                   }
                 />
