@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Portal de Clientes - Contabilidade Design System
+Cor primária: #2c3e50 (HSL: 210 29% 24%)
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Core Colors */
+    --background: 0 0% 100%;
+    --foreground: 210 11% 15%;
+    
+    /* Primary Brand Color - #2c3e50 */
+    --primary: 210 29% 24%;
+    --primary-hover: 210 29% 20%;
+    --primary-light: 210 29% 35%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Cards and Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 15%;
+    --card-border: 220 13% 91%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+
+    /* Status Colors */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 210 11% 15%;
+    --danger: 0 72% 51%;
+    --danger-foreground: 0 0% 98%;
+
+    /* Neutral Colors */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 210 11% 15%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 100% 97%;
+    --accent-foreground: 210 29% 24%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Form Elements */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 210 29% 24%;
+
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 29% 24%) 0%, hsl(210 29% 30%) 100%);
+    --gradient-primary-hover: linear-gradient(135deg, hsl(210 29% 20%) 0%, hsl(210 29% 26%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 40% 99%) 50%, hsl(210 20% 97%) 100%);
+    --gradient-header: linear-gradient(90deg, hsl(0 0% 100%) 0%, hsl(210 40% 99%) 100%);
+    --gradient-sidebar-active: linear-gradient(90deg, hsl(210 29% 24% / 0.1) 0%, hsl(210 29% 24% / 0.05) 100%);
+    
+    /* Sophisticated Shadows */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-premium: 0 10px 25px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 0 1px hsl(210 29% 24% / 0.1), 0 0 20px hsl(210 29% 24% / 0.1);
+    
+    /* Glass morphism effects */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.2);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Core Colors - Dark Mode */
+    --background: 222 47% 5%;
+    --foreground: 210 40% 98%;
+    
+    /* Primary Brand - Lighter in dark mode */
+    --primary: 210 29% 35%;
+    --primary-hover: 210 29% 40%;
+    --primary-light: 210 29% 45%;
+    --primary-foreground: 222 47% 5%;
+
+    /* Cards and Surfaces - Dark Mode */
+    --card: 220 13% 9%;
+    --card-foreground: 210 40% 98%;
+    --card-border: 220 13% 15%;
+
+    --popover: 220 13% 9%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Status Colors - Dark Mode */
+    --success: 142 71% 45%;
+    --success-foreground: 220 13% 9%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 220 13% 9%;
+    --danger: 0 72% 51%;
+    --danger-foreground: 210 40% 98%;
+
+    /* Neutral Colors - Dark Mode */
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 13% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 220 13% 12%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Form Elements - Dark Mode */
+    --border: 220 13% 15%;
+    --input: 220 13% 15%;
+    --ring: 210 29% 35%;
+
+    /* Premium Gradients - Dark Mode */
+    --gradient-primary: linear-gradient(135deg, hsl(210 29% 35%) 0%, hsl(210 29% 25%) 100%);
+    --gradient-primary-hover: linear-gradient(135deg, hsl(210 29% 40%) 0%, hsl(210 29% 30%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(220 13% 9%) 0%, hsl(220 13% 11%) 50%, hsl(220 13% 8%) 100%);
+    --gradient-header: linear-gradient(90deg, hsl(220 13% 9%) 0%, hsl(220 13% 10%) 100%);
+    --gradient-sidebar-active: linear-gradient(90deg, hsl(210 29% 35% / 0.15) 0%, hsl(210 29% 35% / 0.08) 100%);
+    
+    /* Sophisticated Shadows - Dark Mode */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-premium: 0 10px 25px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-glow: 0 0 0 1px hsl(210 29% 35% / 0.2), 0 0 20px hsl(210 29% 35% / 0.15);
+    
+    /* Glass morphism effects - Dark Mode */
+    --glass-bg: rgba(34, 41, 47, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Premium focus and interaction styles */
+  * {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Premium button hover effects */
+  .btn-premium {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-premium:hover::before {
+    left: 100%;
+  }
+
+  /* Card hover effects */
+  .card-premium {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-premium);
+  }
+
+  /* Zebra striping for tables */
+  .table-zebra tbody tr:nth-child(even) {
+    background-color: hsl(var(--muted) / 0.3);
+  }
+
+  /* Loading skeleton animation */
+  .skeleton {
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Glow animation */
+  .glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px hsl(var(--primary) / 0.2);
+    }
+    to {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+    }
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--glass-border);
+  }
+}
