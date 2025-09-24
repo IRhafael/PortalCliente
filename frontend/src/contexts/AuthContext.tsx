@@ -78,6 +78,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const data = await res.json();
       localStorage.setItem('auth_token', data.access);
       localStorage.setItem('refresh_token', data.refresh);
+      localStorage.setItem('user', JSON.stringify(data.user));
       setUser(data.user);
     } catch (error) {
       throw error;
@@ -87,6 +88,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
     setUser(null);
   };
 
@@ -103,15 +105,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     // Check for existing session on app start
     const token = localStorage.getItem('auth_token');
-    if (token) {
-      // In production, validate token with backend
-      setUser({
-        id: '1',
-        name: 'João Silva',
-        email: 'admin@empresa.com',
-        company: 'Empresa Exemplo LTDA',
-        role: 'admin'
-      });
+    const userStr = localStorage.getItem('user');
+    if (token && userStr) {
+      try {
+        setUser(JSON.parse(userStr));
+      } catch {
+        setUser(null);
+      }
     }
     setIsLoading(false);
   }, []);
