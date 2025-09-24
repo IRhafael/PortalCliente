@@ -60,13 +60,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await mockApi.login(email, password);
-      
-      // Store tokens (in production, use httpOnly cookies)
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('refresh_token', response.refreshToken);
-      
-      setUser(response.user);
+      const res = await fetch('/api/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!res.ok) {
+        let msg = 'Erro ao fazer login';
+        try {
+          const data = await res.json();
+          msg = data?.detail || data?.non_field_errors?.[0] || msg;
+        } catch {}
+        throw new Error(msg);
+      }
+      const data = await res.json();
+      localStorage.setItem('auth_token', data.access);
+      localStorage.setItem('refresh_token', data.refresh);
+      setUser(data.user);
     } catch (error) {
       throw error;
     }

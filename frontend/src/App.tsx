@@ -22,6 +22,7 @@ import DocumentsPage from "@/pages/DocumentsPage";
 import NotFound from "@/pages/NotFound";
 import ConfiguracoesPage from "@/pages/ConfiguracoesPage";
 import MensagensPage from "@/pages/mensagensPage";
+import RegisterPage from "@/pages/RegisterPage";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
               <Routes>
                 {/* Public Routes */}
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 
                 {/* Protected Routes */}
                 <Route path="/" element={

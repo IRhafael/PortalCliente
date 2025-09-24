@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -131,6 +131,10 @@ export default function LoginPage() {
         </Card>
 
         <div className="mt-6 text-center">
+          <p className="text-xs text-muted-foreground mb-2">
+            Ainda não tem conta?{' '}
+            <Link to="/register" className="text-primary underline hover:text-primary-hover">Cadastre-se</Link>
+          </p>
           <p className="text-xs text-muted-foreground">
             © 2024 Portal de Clientes. Sistema de gestão contábil.
           </p>
