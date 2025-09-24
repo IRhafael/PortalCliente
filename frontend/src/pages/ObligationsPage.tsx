@@ -29,59 +29,8 @@ interface Obligation {
   priority: 'high' | 'medium' | 'low';
 }
 
-// Mock data
-const mockObligations: Obligation[] = [
-  {
-    id: '1',
-    description: 'DARF - Imposto de Renda PJ',
-    type: 'federal',
-    dueDate: '2024-01-15',
-    status: 'pending',
-    value: 2500.00,
-    reference: 'Dez/2023',
-    priority: 'high'
-  },
-  {
-    id: '2',
-    description: 'ICMS - Dezembro',
-    type: 'estadual',
-    dueDate: '2024-01-20',
-    status: 'in_progress',
-    value: 1800.50,
-    reference: 'Dez/2023',
-    priority: 'medium'
-  },
-  {
-    id: '3',
-    description: 'ISS - Serviços Prestados',
-    type: 'municipal',
-    dueDate: '2024-01-25',
-    status: 'pending',
-    value: 650.00,
-    reference: 'Dez/2023',
-    priority: 'medium'
-  },
-  {
-    id: '4',
-    description: 'Contribuição Previdenciária',
-    type: 'federal',
-    dueDate: '2024-01-10',
-    status: 'overdue',
-    value: 3200.00,
-    reference: 'Dez/2023',
-    priority: 'high'
-  },
-  {
-    id: '5',
-    description: 'FGTS - Dezembro',
-    type: 'trabalhista',
-    dueDate: '2024-01-07',
-    status: 'completed',
-    value: 1200.00,
-    reference: 'Dez/2023',
-    priority: 'medium'
-  }
-];
+// Lista inicial vazia
+const mockObligations: Obligation[] = [];
 
 const typeLabels: Record<ObligationType, string> = {
   federal: 'Federal',

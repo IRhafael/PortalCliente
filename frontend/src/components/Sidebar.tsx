@@ -25,7 +25,6 @@ const navigation = [
   { name: 'Obrigações', href: '/obligations', icon: Calendar },
   { name: 'Documentos', href: '/documents', icon: FileText },
   { name: 'Mensagens', href: '/messages', icon: MessageSquare },
-  { name: 'Upload', href: '/upload', icon: Upload },
   { name: 'Configurações', href: '/settings', icon: Settings },
 ];
 

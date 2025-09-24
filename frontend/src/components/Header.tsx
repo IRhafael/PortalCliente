@@ -96,18 +96,7 @@ export function Header({ onToggleSidebar, sidebarCollapsed, className }: HeaderP
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button variant="ghost" size="sm" className="relative h-9 w-9 p-0 hover:bg-accent/50 group">
                 <Bell className="h-4 w-4 group-hover:animate-pulse" />
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1"
-                >
-                  <Badge 
-                    variant="destructive" 
-                    className="h-5 w-5 flex items-center justify-center p-0 text-xs shadow-glow"
-                  >
-                    3
-                  </Badge>
-                </motion.div>
+                {/* Badge de notificações será exibido aqui quando houver notificações reais */}
               </Button>
             </motion.div>
           </DropdownMenuTrigger>
@@ -118,57 +107,7 @@ export function Header({ onToggleSidebar, sidebarCollapsed, className }: HeaderP
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             
-            {/* Premium notification items */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <DropdownMenuItem className="flex flex-col items-start gap-2 p-4 hover:bg-accent/50">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-danger rounded-full"></div>
-                  <div className="font-semibold text-sm">Nova obrigação vencendo</div>
-                </div>
-                <div className="text-sm text-muted-foreground pl-4">
-                  DARF - Imposto de Renda vence em 2 dias
-                </div>
-                <div className="text-xs text-muted-foreground pl-4">Há 30 minutos</div>
-              </DropdownMenuItem>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <DropdownMenuItem className="flex flex-col items-start gap-2 p-4 hover:bg-accent/50">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-success rounded-full"></div>
-                  <div className="font-semibold text-sm">Documento aprovado</div>
-                </div>
-                <div className="text-sm text-muted-foreground pl-4">
-                  Balancete mensal foi aprovado pelo contador
-                </div>
-                <div className="text-xs text-muted-foreground pl-4">Há 2 horas</div>
-              </DropdownMenuItem>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <DropdownMenuItem className="flex flex-col items-start gap-2 p-4 hover:bg-accent/50">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <div className="font-semibold text-sm">Mensagem recebida</div>
-                </div>
-                <div className="text-sm text-muted-foreground pl-4">
-                  Novo comentário sobre declaração anual
-                </div>
-                <div className="text-xs text-muted-foreground pl-4">Há 4 horas</div>
-              </DropdownMenuItem>
-            </motion.div>
+            {/* Notificações reais devem ser renderizadas aqui futuramente */}
           </DropdownMenuContent>
         </DropdownMenu>
 

@@ -23,36 +23,8 @@ interface Document {
   status: 'pending' | 'approved' | 'rejected';
 }
 
-// Mock data
-const mockDocuments: Document[] = [
-  {
-    id: '1',
-    name: 'Balancete_Dezembro_2023.pdf',
-    type: 'pdf',
-    size: 1024000,
-    uploadDate: '2024-01-08',
-    category: 'contabil',
-    status: 'approved'
-  },
-  {
-    id: '2',
-    name: 'Notas_Fiscais_Dezembro.xlsx',
-    type: 'xlsx',
-    size: 2048000,
-    uploadDate: '2024-01-07',
-    category: 'fiscal',
-    status: 'pending'
-  },
-  {
-    id: '3',
-    name: 'Folha_Pagamento_Dezembro.pdf',
-    type: 'pdf',
-    size: 512000,
-    uploadDate: '2024-01-06',
-    category: 'trabalhista',
-    status: 'approved'
-  }
-];
+// Lista inicial vazia
+const mockDocuments: Document[] = [];
 
 const categoryLabels = {
   fiscal: 'Fiscal',

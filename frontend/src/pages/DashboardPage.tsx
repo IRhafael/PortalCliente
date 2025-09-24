@@ -7,44 +7,15 @@ import { SkeletonLoader, DashboardSkeleton } from '@/components/SkeletonLoader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-// Mock data
+// Dados iniciais vazios
 const mockData = {
   summary: {
-    pending: 8,
-    inProgress: 3,
-    completed: 15,
-    overdue: 2
+    pending: 0,
+    inProgress: 0,
+    completed: 0,
+    overdue: 0
   },
-  upcomingObligations: [
-    {
-      id: '1',
-      description: 'DARF - Imposto de Renda',
-      dueDate: '2024-01-15',
-      status: 'pending' as const,
-      type: 'Federal'
-    },
-    {
-      id: '2', 
-      description: 'ICMS - Dezembro',
-      dueDate: '2024-01-20',
-      status: 'in_progress' as const,
-      type: 'Estadual'
-    },
-    {
-      id: '3',
-      description: 'ISS - Dezembro', 
-      dueDate: '2024-01-25',
-      status: 'pending' as const,
-      type: 'Municipal'
-    },
-    {
-      id: '4',
-      description: 'Contribuição Previdenciária',
-      dueDate: '2024-01-10',
-      status: 'overdue' as const,
-      type: 'Federal'
-    }
-  ]
+  upcomingObligations: []
 };
 
 export default function DashboardPage() {
@@ -117,7 +88,6 @@ export default function DashboardPage() {
           value={summary.pending}
           description="Obrigações aguardando processamento"
           icon={Clock}
-          trend={{ value: 5, isPositive: false }}
           delay={0}
         />
         <DashboardCard
@@ -125,7 +95,6 @@ export default function DashboardPage() {
           value={summary.inProgress}
           description="Sendo processadas pelo contador"
           icon={FileCheck}
-          trend={{ value: 12, isPositive: true }}
           delay={1}
         />
         <DashboardCard
@@ -133,7 +102,6 @@ export default function DashboardPage() {
           value={summary.completed}
           description="Finalizadas este mês"
           icon={Calendar}
-          trend={{ value: 8, isPositive: true }}
           delay={2}
         />
         <DashboardCard
@@ -141,7 +109,6 @@ export default function DashboardPage() {
           value={summary.overdue}
           description="Requerem atenção imediata"
           icon={AlertTriangle}
-          trend={{ value: 20, isPositive: true }}
           delay={3}
         />
       </motion.div>
@@ -243,60 +210,7 @@ export default function DashboardPage() {
             
             <CardContent className="relative">
               <div className="space-y-4">
-                {[
-                  {
-                    type: 'success',
-                    title: 'Documento aprovado',
-                    description: 'Balancete mensal foi aprovado pelo contador',
-                    time: 'Há 2 horas',
-                    icon: '✅'
-                  },
-                  {
-                    type: 'primary',
-                    title: 'Nova mensagem',
-                    description: 'Contador enviou comentários sobre declaração anual',
-                    time: 'Há 4 horas',
-                    icon: '💬'
-                  },
-                  {
-                    type: 'warning',
-                    title: 'Lembrete automático',
-                    description: 'DARF vence em 3 dias - prepare a documentação',
-                    time: 'Ontem',
-                    icon: '⚠️'
-                  },
-                  {
-                    type: 'primary',
-                    title: 'Upload concluído',
-                    description: 'Notas fiscais de dezembro foram processadas',
-                    time: '2 dias atrás',
-                    icon: '📄'
-                  }
-                ].map((activity, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 * index + 0.2 }}
-                    className="group/activity"
-                  >
-                    <div className="flex items-start gap-4 p-4 rounded-xl border border-card-border hover:bg-accent/30 hover:border-primary/20 transition-all duration-200 group-hover/activity:scale-[1.02]">
-                      <div className={`
-                        w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold flex-shrink-0
-                        ${activity.type === 'success' && 'bg-success/10 text-success border border-success/20'}
-                        ${activity.type === 'primary' && 'bg-primary/10 text-primary border border-primary/20'}
-                        ${activity.type === 'warning' && 'bg-warning/10 text-warning border border-warning/20'}
-                      `}>
-                        {activity.icon}
-                      </div>
-                      <div className="space-y-1 flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-foreground">{activity.title}</p>
-                        <p className="text-xs text-muted-foreground line-clamp-2">{activity.description}</p>
-                        <p className="text-xs text-muted-foreground font-medium">{activity.time}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                {/* Atividades reais devem ser renderizadas aqui futuramente */}
               </div>
             </CardContent>
           </Card>

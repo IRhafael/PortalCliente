@@ -20,6 +20,8 @@ import DashboardPage from "@/pages/DashboardPage";
 import ObligationsPage from "@/pages/ObligationsPage";
 import DocumentsPage from "@/pages/DocumentsPage";
 import NotFound from "@/pages/NotFound";
+import ConfiguracoesPage from "@/pages/ConfiguracoesPage";
+import MensagensPage from "@/pages/mensagensPage";
 
 const queryClient = new QueryClient();
 
@@ -62,10 +64,21 @@ const App = () => (
                   </ProtectedRoute>
                 } />
 
-                {/* Redirect old routes */}
-                <Route path="/messages" element={<Navigate to="/" replace />} />
-                <Route path="/upload" element={<Navigate to="/documents" replace />} />
-                <Route path="/settings" element={<Navigate to="/" replace />} />
+                {/* Novas rotas protegidas */}
+                <Route path="/messages" element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <MensagensPage />
+                    </Layout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/settings" element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <ConfiguracoesPage />
+                    </Layout>
+                  </ProtectedRoute>
+                } />
                 
                 {/* 404 */}
                 <Route path="*" element={<NotFound />} />
