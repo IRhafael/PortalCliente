@@ -29,8 +29,8 @@ interface Obligation {
   priority: 'high' | 'medium' | 'low';
 }
 
-// Lista inicial vazia
-const mockObligations: Obligation[] = [];
+
+import { useEffect } from 'react';
 
 const typeLabels: Record<ObligationType, string> = {
   federal: 'Federal',
@@ -45,16 +45,37 @@ const priorityColors = {
   low: 'bg-success/10 text-success border-success/20'
 };
 
+
 export default function ObligationsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [obligations, setObligations] = useState<Obligation[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredObligations = mockObligations.filter(obligation => {
+  useEffect(() => {
+    async function fetchObligations() {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/obligations/');
+        if (res.ok) {
+          const data = await res.json();
+          setObligations(data);
+        } else {
+          setObligations([]);
+        }
+      } catch {
+        setObligations([]);
+      }
+      setLoading(false);
+    }
+    fetchObligations();
+  }, []);
+
+  const filteredObligations = obligations.filter(obligation => {
     const matchesSearch = obligation.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || obligation.status === statusFilter;
     const matchesType = typeFilter === 'all' || obligation.type === typeFilter;
-    
     return matchesSearch && matchesStatus && matchesType;
   });
 
@@ -166,84 +187,87 @@ export default function ObligationsPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Descrição</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead>Vencimento</TableHead>
-                <TableHead>Valor</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Prioridade</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredObligations.map((obligation) => {
-                const daysUntilDue = getDaysUntilDue(obligation.dueDate);
-                
-                return (
-                  <TableRow 
-                    key={obligation.id} 
-                    className="hover:bg-accent/50 transition-colors"
-                  >
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">{obligation.description}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Ref: {obligation.reference}
-                        </p>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">
-                        {typeLabels[obligation.type]}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <p className="text-sm">{formatDate(obligation.dueDate)}</p>
-                        {daysUntilDue >= 0 ? (
+          {loading ? (
+            <div className="text-center text-muted-foreground py-8">Carregando obrigações...</div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Descrição</TableHead>
+                  <TableHead>Tipo</TableHead>
+                  <TableHead>Vencimento</TableHead>
+                  <TableHead>Valor</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Prioridade</TableHead>
+                  <TableHead className="text-right">Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredObligations.map((obligation) => {
+                  const daysUntilDue = getDaysUntilDue(obligation.dueDate);
+                  return (
+                    <TableRow 
+                      key={obligation.id} 
+                      className="hover:bg-accent/50 transition-colors"
+                    >
+                      <TableCell>
+                        <div>
+                          <p className="font-medium">{obligation.description}</p>
                           <p className="text-xs text-muted-foreground">
-                            {daysUntilDue === 0 ? 'Vence hoje' : `${daysUntilDue} dias`}
+                            Ref: {obligation.reference}
                           </p>
-                        ) : (
-                          <p className="text-xs text-danger">
-                            Vencida há {Math.abs(daysUntilDue)} dias
-                          </p>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">
+                          {typeLabels[obligation.type]}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div>
+                          <p className="text-sm">{formatDate(obligation.dueDate)}</p>
+                          {daysUntilDue >= 0 ? (
+                            <p className="text-xs text-muted-foreground">
+                              {daysUntilDue === 0 ? 'Vence hoje' : `${daysUntilDue} dias`}
+                            </p>
+                          ) : (
+                            <p className="text-xs text-danger">
+                              Vencida há {Math.abs(daysUntilDue)} dias
+                            </p>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {obligation.value && (
+                          <span className="font-medium">
+                            {formatCurrency(obligation.value)}
+                          </span>
                         )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {obligation.value && (
-                        <span className="font-medium">
-                          {formatCurrency(obligation.value)}
-                        </span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <StatusBadge status={obligation.status} size="sm" />
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        className={priorityColors[obligation.priority]}
-                        variant="outline"
-                      >
-                        {obligation.priority === 'high' && 'Alta'}
-                        {obligation.priority === 'medium' && 'Média'}
-                        {obligation.priority === 'low' && 'Baixa'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                      </TableCell>
+                      <TableCell>
+                        <StatusBadge status={obligation.status} size="sm" />
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          className={priorityColors[obligation.priority]}
+                          variant="outline"
+                        >
+                          {obligation.priority === 'high' && 'Alta'}
+                          {obligation.priority === 'medium' && 'Média'}
+                          {obligation.priority === 'low' && 'Baixa'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="sm">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
