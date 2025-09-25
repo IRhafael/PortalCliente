@@ -34,3 +34,38 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	def __str__(self):
 		return self.email
+
+
+# ------------------- OBRIGAÇÕES -------------------
+class Obligation(models.Model):
+	OBLIGATION_TYPE_CHOICES = [
+		('federal', 'Federal'),
+		('estadual', 'Estadual'),
+		('municipal', 'Municipal'),
+		('trabalhista', 'Trabalhista'),
+	]
+	STATUS_CHOICES = [
+		('pending', 'Pendente'),
+		('in_progress', 'Em Análise'),
+		('completed', 'Concluída'),
+		('overdue', 'Vencida'),
+	]
+	PRIORITY_CHOICES = [
+		('high', 'Alta'),
+		('medium', 'Média'),
+		('low', 'Baixa'),
+	]
+
+	description = models.CharField(max_length=255)
+	type = models.CharField(max_length=20, choices=OBLIGATION_TYPE_CHOICES)
+	due_date = models.DateField()
+	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+	value = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+	reference = models.CharField(max_length=100)
+	priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+	user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='obligations')
+
+	def __str__(self):
+		return self.description

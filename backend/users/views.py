@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import User
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, ObligationSerializer
+
 
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -23,6 +24,7 @@ class RegisterView(APIView):
             }, status=status.HTTP_201_CREATED)
         print('Erro ao cadastrar usuário:', serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -48,3 +50,18 @@ class LoginView(APIView):
             })
         print('Erro no login:', serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ------------------- OBRIGAÇÕES -------------------
+from rest_framework import viewsets
+from .models import Obligation
+
+class ObligationViewSet(viewsets.ModelViewSet):
+    serializer_class = ObligationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Obligation.objects.filter(user=self.request.user).order_by('-due_date')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

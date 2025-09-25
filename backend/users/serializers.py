@@ -18,6 +18,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 		)
 		return user
 
+
+# ------------------- OBRIGAÇÕES -------------------
+from .models import Obligation
+
+class ObligationSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Obligation
+		fields = '__all__'
+		read_only_fields = ('id', 'created_at', 'updated_at', 'user')
+
 class LoginSerializer(serializers.Serializer):
 	email = serializers.EmailField()
 	password = serializers.CharField()

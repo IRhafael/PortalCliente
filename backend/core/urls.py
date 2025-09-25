@@ -21,7 +21,12 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from users.views import LoginView, RegisterView
+
+from users.views import LoginView, RegisterView, ObligationViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'obligations', ObligationViewSet, basename='obligation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +34,10 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/login/', LoginView.as_view(), name='custom_login'),
     path('api/register/', RegisterView.as_view(), name='register'),
+]
+
+# Inclui as rotas do router do DRF
+from django.urls import include
+urlpatterns += [
+    path('api/', include(router.urls)),
 ]
