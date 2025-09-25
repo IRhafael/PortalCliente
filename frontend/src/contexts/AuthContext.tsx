@@ -22,37 +22,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-// Mock API simulation
-const mockApi = {
-  login: async (email: string, password: string) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    if (email === 'admin@empresa.com' && password === 'admin123') {
-      return {
-        user: {
-          id: '1',
-          name: 'João Silva',
-          email: 'admin@empresa.com',
-          company: 'Empresa Exemplo LTDA',
-          role: 'admin' as const
-        },
-        token: 'mock-jwt-token',
-        refreshToken: 'mock-refresh-token'
-      };
-    }
-    
-    throw new Error('Credenciais inválidas');
-  },
-  
-  refreshToken: async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return {
-      token: 'new-mock-jwt-token',
-      refreshToken: 'new-mock-refresh-token'
-    };
-  }
-};
+
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -93,10 +63,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const refreshToken = async () => {
+    const refresh = localStorage.getItem('refresh_token');
+    if (!refresh) {
+      logout();
+      return;
+    }
     try {
-      const response = await mockApi.refreshToken();
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('refresh_token', response.refreshToken);
+      const res = await fetch('/api/token/refresh/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh }),
+      });
+      if (!res.ok) {
+        logout();
+        return;
+      }
+      const data = await res.json();
+      if (data.access) {
+        localStorage.setItem('auth_token', data.access);
+      }
     } catch (error) {
       logout();
     }
@@ -114,6 +101,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     }
     setIsLoading(false);
+
+    // Opcional: renovação automática do token a cada 4 minutos (token padrão dura 5 min)
+    const interval = setInterval(() => {
+      refreshToken();
+    }, 4 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const value = {

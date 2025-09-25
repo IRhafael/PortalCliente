@@ -7,27 +7,91 @@ import { SkeletonLoader, DashboardSkeleton } from '@/components/SkeletonLoader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-// Dados iniciais vazios
-const mockData = {
-  summary: {
+
+type ObligationType = 'federal' | 'estadual' | 'municipal' | 'trabalhista';
+type ObligationStatus = 'pending' | 'in_progress' | 'completed' | 'overdue';
+interface Obligation {
+  id: string;
+  description: string;
+  type: ObligationType;
+  dueDate: string;
+  status: ObligationStatus;
+  value?: number;
+  reference: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+
+export default function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [obligations, setObligations] = useState<Obligation[]>([]);
+  const [summary, setSummary] = useState({
     pending: 0,
     inProgress: 0,
     completed: 0,
     overdue: 0
-  },
-  upcomingObligations: []
-};
+  });
+  const [upcomingObligations, setUpcomingObligations] = useState<Obligation[]>([]);
 
-export default function DashboardPage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const { summary, upcomingObligations } = mockData;
-
-  // Simulate loading
   useEffect(() => {
-    const timer = setTimeout(() => {
+    async function fetchObligations() {
+      setIsLoading(true);
+      try {
+        const token = localStorage.getItem('auth_token');
+        const res = await fetch('/api/obligations/', {
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
+          }
+        });
+        console.log('[DASHBOARD] Status:', res.status);
+        let data = [];
+        try {
+          data = await res.json();
+        } catch (e) {
+          console.error('[DASHBOARD] Erro ao fazer parse do JSON:', e);
+        }
+        console.log('[DASHBOARD] Data retornada:', data);
+        if (res.ok && Array.isArray(data)) {
+          // Converter due_date para dueDate
+          const mapped: Obligation[] = data.map((item) => ({ ...item, dueDate: item.due_date }));
+          setObligations(mapped);
+
+          // Calcular resumo
+          const now = new Date();
+          const summaryCalc = {
+            pending: 0,
+            inProgress: 0,
+            completed: 0,
+            overdue: 0
+          };
+          mapped.forEach((o) => {
+            if (o.status === 'pending') summaryCalc.pending++;
+            else if (o.status === 'in_progress') summaryCalc.inProgress++;
+            else if (o.status === 'completed') summaryCalc.completed++;
+            // Considera vencidas pelo status OU data vencida
+            if (o.status === 'overdue' || new Date(o.dueDate) < now) summaryCalc.overdue++;
+          });
+          setSummary(summaryCalc);
+
+          // Próximos vencimentos: obrigações com data >= hoje, ordenadas, próximas 5
+          const upcoming = mapped
+            .filter(o => new Date(o.dueDate) >= now)
+            .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
+            .slice(0, 5);
+          setUpcomingObligations(upcoming);
+        } else {
+          setObligations([]);
+          setSummary({ pending: 0, inProgress: 0, completed: 0, overdue: 0 });
+          setUpcomingObligations([]);
+        }
+      } catch {
+        setObligations([]);
+        setSummary({ pending: 0, inProgress: 0, completed: 0, overdue: 0 });
+        setUpcomingObligations([]);
+      }
       setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    }
+    fetchObligations();
   }, []);
 
   const formatDate = (dateString: string) => {
